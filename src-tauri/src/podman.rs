@@ -152,6 +152,42 @@ fn get_num(v: &Value, keys: &[&str]) -> Option<i64> {
     None
 }
 
+/// `podman ps --format json`'s "Ports" field is an array of objects
+/// (`host_ip`/`host_port`/`container_port`/`protocol`/`range`), not an array
+/// of strings, so it needs its own formatter rather than
+/// `get_str_array_joined`. Mirrors `podman ps`'s own table rendering, e.g.
+/// `0.0.0.0:8080->8080/tcp`.
+fn format_ports(v: &Value) -> Option<String> {
+    let arr = v.get("Ports").and_then(Value::as_array)?;
+    let entries: Vec<String> = arr
+        .iter()
+        .filter_map(|p| {
+            let host_ip = p.get("host_ip").and_then(Value::as_str).unwrap_or("");
+            let host_ip = if host_ip.is_empty() { "0.0.0.0" } else { host_ip };
+            let host_port = p.get("host_port").and_then(Value::as_i64)?;
+            let container_port = p.get("container_port").and_then(Value::as_i64)?;
+            let protocol = p.get("protocol").and_then(Value::as_str).unwrap_or("tcp");
+            let range = p.get("range").and_then(Value::as_i64).unwrap_or(1).max(1);
+
+            Some(if range > 1 {
+                format!(
+                    "{host_ip}:{host_port}-{}->{container_port}-{}/{protocol}",
+                    host_port + range - 1,
+                    container_port + range - 1
+                )
+            } else {
+                format!("{host_ip}:{host_port}->{container_port}/{protocol}")
+            })
+        })
+        .collect();
+
+    if entries.is_empty() {
+        None
+    } else {
+        Some(entries.join(", "))
+    }
+}
+
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ContainerSummary {
@@ -255,9 +291,7 @@ pub fn list_containers() -> Result<Vec<ContainerSummary>, PodmanError> {
             let state = get_str(v, &["State"])
                 .unwrap_or_else(|| infer_state_from_status(&status));
             let created_at = get_str(v, &["CreatedAt", "Created"]).unwrap_or_default();
-            let ports = get_str(v, &["Ports"])
-                .or_else(|| get_str_array_joined(v, &["Ports"]))
-                .unwrap_or_default();
+            let ports = format_ports(v).unwrap_or_default();
 
             ContainerSummary {
                 id,
