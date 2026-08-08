@@ -23,6 +23,8 @@
   --red-soft: rgba(239, 68, 68, 0.14);
   --gray: #8b93a4;
   --gray-soft: rgba(139, 147, 164, 0.14);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59, 130, 246, 0.14);
 
   --radius: 10px;
   --radius-lg: 14px;
@@ -498,9 +500,9 @@ table.data-table {
   border-color: var(--border);
 }
 
-/* Color-coded by intent: state-changing actions get a tint, view-only
-   actions (details/logs/stats) stay neutral so color itself signals
-   "this mutates the resource". */
+/* Color-coded by intent: mutating actions get their own hue (green/amber/
+   purple/red), read-only actions (details/logs/stats) share a neutral
+   info-blue so the two groups stay visually distinct at a glance. */
 .action-btn[data-action="start"] {
   color: var(--green);
 }
@@ -526,6 +528,33 @@ table.data-table {
 .action-btn[data-action="restart"]:hover {
   background: var(--accent-soft);
   color: var(--accent-strong);
+}
+
+.action-btn[data-action="stats"] {
+  color: var(--green);
+}
+
+.action-btn[data-action="stats"]:hover {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.action-btn[data-action="inspect"] {
+  color: var(--blue);
+}
+
+.action-btn[data-action="inspect"]:hover {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.action-btn[data-action="logs"] {
+  color: var(--text);
+}
+
+.action-btn[data-action="logs"]:hover {
+  background: var(--surface-hover);
+  color: var(--text);
 }
 
 .action-btn.danger {

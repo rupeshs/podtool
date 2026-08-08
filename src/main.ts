@@ -490,7 +490,7 @@ function renderContainers(): void {
         actions.push(actionBtn("stats", "activity", "Stats", isBusy));
       }
       actions.push(actionBtn("inspect", "info", "Details", isBusy));
-      actions.push(actionBtn("logs", "terminal", "Logs", isBusy));
+      actions.push(actionBtn("logs", "logs", "Logs", isBusy));
       actions.push(actionBtn("remove", "trash", "Remove", isBusy, true));
 
       return `
