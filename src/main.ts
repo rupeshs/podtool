@@ -143,7 +143,7 @@ async function openAboutModal(): Promise<void> {
       </div>
     </div>
     <p>A lightweight desktop UI for managing Podman containers, images, volumes, and networks.</p>
-    <p>Built with Tauri and Rust — a native webview, no Electron, no background daemon. Licensed under the MIT License.</p>
+    <p>Licensed under the MIT License.</p>
   `;
   openModal({ title: "About", bodyHtml });
 }
@@ -416,13 +416,12 @@ function renderDisconnected(): void {
       <h2>${escapeHtml(title)}</h2>
       ${versionLine}
       <p>${escapeHtml(statusInfo?.message ?? "PodTool can't reach Podman right now.")}</p>
-      ${
-        notInstalled
-          ? `<p>Install it from <code>podman.io</code>, then use the refresh button above.</p>`
-          : `<button class="btn primary" id="empty-start-machine" type="button">
+      ${notInstalled
+      ? `<p>Install it from <code>podman.io</code>, then use the refresh button above.</p>`
+      : `<button class="btn primary" id="empty-start-machine" type="button">
                <span data-icon="plug"></span> Start Podman Machine
              </button>`
-      }
+    }
     </div>
   `;
   mountIcons(contentEl());
