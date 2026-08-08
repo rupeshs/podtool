@@ -48,10 +48,6 @@ npx tsc --noEmit              # typecheck the frontend
 
 There's no automated test suite yet — verification is via the commands above plus manually exercising the built app against a real Podman install.
 
-## Tech stack
-
-- **Backend:** Rust, [Tauri v2](https://tauri.app), shelling out to the `podman` CLI.
-- **Frontend:** Vanilla TypeScript, no framework — see [`CLAUDE.md`](./CLAUDE.md) for an architecture overview.
 
 ## License
 
