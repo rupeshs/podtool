@@ -15,6 +15,8 @@ import { toast } from "./toast";
 import { openModal, confirmDialog, openLogsModal, openInspectModal, openStatsModal } from "./modal";
 import { escapeHtml, formatBytes, formatRelativeTime } from "./format";
 import { ThemePref, cycleTheme, getThemePref, initTheme } from "./theme";
+import { getVersion } from "@tauri-apps/api/app";
+import { listen } from "@tauri-apps/api/event";
 
 initTheme();
 
@@ -49,6 +51,7 @@ function main(): void {
   wireTopbar();
   wireStatusPill();
   wireThemeToggle();
+  wireAbout();
 
   void refreshStatus();
   void loadCurrentView();
@@ -116,6 +119,33 @@ function renderThemeToggle(btn: HTMLButtonElement, pref: ThemePref): void {
   btn.title = `Theme: ${THEME_LABELS[pref]}`;
   btn.innerHTML = `<span data-icon="${THEME_ICONS[pref]}"></span>`;
   mountIcons(btn);
+}
+
+function wireAbout(): void {
+  document.getElementById("brand-btn")?.addEventListener("click", () => void openAboutModal());
+  void listen("show-about", () => void openAboutModal());
+}
+
+async function openAboutModal(): Promise<void> {
+  let version = "";
+  try {
+    version = await getVersion();
+  } catch {
+    version = "";
+  }
+
+  const bodyHtml = `
+    <div class="about-header">
+      <span class="brand-mark" aria-hidden="true">${icon("box")}</span>
+      <div>
+        <div class="about-title">PodTool</div>
+        <div class="about-version">${version ? `Version ${escapeHtml(version)}` : ""}</div>
+      </div>
+    </div>
+    <p>A lightweight desktop UI for managing Podman containers, images, volumes, and networks.</p>
+    <p>Built with Tauri and Rust — a native webview, no Electron, no background daemon. Licensed under the MIT License.</p>
+  `;
+  openModal({ title: "About", bodyHtml });
 }
 
 // ---------------------------------------------------------------------------

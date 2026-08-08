@@ -11,10 +11,10 @@
   <body>
     <div id="app">
       <aside class="sidebar">
-        <div class="brand">
-          <span class="brand-mark" aria-hidden="true"></span>
+        <button class="brand" id="brand-btn" type="button" title="About PodTool">
+          <span class="brand-mark" aria-hidden="true" data-icon="box"></span>
           <span class="brand-name">PodTool</span>
-        </div>
+        </button>
 
         <nav class="nav" id="nav">
           <button class="nav-item is-active" data-view="containers" type="button">
@@ -54,7 +54,7 @@
               <span class="search-icon" data-icon="search"></span>
               <input id="search-input" type="search" placeholder="Filter&hellip;" autocomplete="off" />
             </label>
-            <button id="cleanup-btn" class="btn" type="button" title="Remove unused containers, images, volumes, and networks">
+            <button id="cleanup-btn" class="btn danger-soft" type="button" title="Remove unused containers, images, volumes, and networks">
               <span data-icon="trash"></span> Clean up
             </button>
             <button id="refresh-btn" class="icon-btn" type="button" title="Refresh">

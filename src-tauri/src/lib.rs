@@ -7,7 +7,7 @@ use podman::{
 use tauri::{
     menu::{Menu, MenuItem, PredefinedMenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager, WindowEvent,
+    Emitter, Manager, WindowEvent,
 };
 
 #[tauri::command]
@@ -146,9 +146,10 @@ pub fn run() {
         ])
         .setup(|app| {
             let show_item = MenuItem::with_id(app, "show", "Show PodTool", true, None::<&str>)?;
+            let about_item = MenuItem::with_id(app, "about", "About PodTool", true, None::<&str>)?;
             let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let separator = PredefinedMenuItem::separator(app)?;
-            let menu = Menu::with_items(app, &[&show_item, &separator, &quit_item])?;
+            let menu = Menu::with_items(app, &[&show_item, &about_item, &separator, &quit_item])?;
 
             let icon = app
                 .default_window_icon()
@@ -162,6 +163,10 @@ pub fn run() {
                 .tooltip("PodTool")
                 .on_menu_event(|app, event| match event.id.as_ref() {
                     "show" => show_main_window(app),
+                    "about" => {
+                        show_main_window(app);
+                        let _ = app.emit("show-about", ());
+                    }
                     "quit" => app.exit(0),
                     _ => {}
                 })

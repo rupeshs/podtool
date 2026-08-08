@@ -1,11 +1,12 @@
 # PodTool
 
-A modern, cross-platform desktop app for managing [Podman](https://podman.io) containers, images, volumes, and networks — built with [Tauri](https://tauri.app) (Rust) and vanilla TypeScript.
+A modern, lightweight, cross-platform desktop app for managing [Podman](https://podman.io) containers, images, volumes, and networks — built with [Tauri](https://tauri.app) (Rust) and vanilla TypeScript.
 
 PodTool talks to Podman entirely through its CLI (no daemon/socket client), so it works with whatever Podman setup you already have — a WSL machine on Windows, native Linux, or a macOS machine — without any extra configuration.
 
 ## Features
 
+- **Lightweight** — a native OS webview via Tauri, not Electron/bundled Chromium; the whole app is a single binary under 10 MB with no background daemon of its own.
 - **Containers, Images, Volumes, Networks** in one place, with start/stop/restart, remove, and a live log viewer (with search and match highlighting) for containers.
 - **Clean up** unused containers, images, volumes, and networks in one action.
 - **Connection-aware UI** — shows Podman's client version, and offers to start the Podman machine for you if it isn't running.

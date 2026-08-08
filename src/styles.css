@@ -99,15 +99,34 @@ input {
   align-items: center;
   gap: 9px;
   padding: 4px 8px 22px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.brand:hover .brand-name {
+  color: var(--accent-strong);
 }
 
 .brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
   border-radius: 6px;
   background: linear-gradient(135deg, var(--accent), #4f9dff);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   flex-shrink: 0;
+  color: white;
+}
+
+.brand-mark svg {
+  width: 12px;
+  height: 12px;
 }
 
 .brand-name {
@@ -479,6 +498,40 @@ table.data-table {
   border-color: var(--border);
 }
 
+/* Color-coded by intent: state-changing actions get a tint, view-only
+   actions (details/logs/stats) stay neutral so color itself signals
+   "this mutates the resource". */
+.action-btn[data-action="start"] {
+  color: var(--green);
+}
+
+.action-btn[data-action="start"]:hover {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.action-btn[data-action="stop"] {
+  color: var(--amber);
+}
+
+.action-btn[data-action="stop"]:hover {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.action-btn[data-action="restart"] {
+  color: var(--accent-strong);
+}
+
+.action-btn[data-action="restart"]:hover {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.action-btn.danger {
+  color: var(--red);
+}
+
 .action-btn.danger:hover {
   background: var(--red-soft);
   color: var(--red);
@@ -491,7 +544,6 @@ table.data-table {
 
 .action-btn:disabled:hover {
   background: transparent;
-  color: var(--text-dim);
 }
 
 /* ---------- Empty / error states ---------- */
@@ -585,6 +637,16 @@ table.data-table {
 
 .btn.danger:hover {
   filter: brightness(1.08);
+}
+
+.btn.danger-soft {
+  background: var(--red-soft);
+  border-color: transparent;
+  color: var(--red);
+}
+
+.btn.danger-soft:hover {
+  background: rgba(239, 68, 68, 0.22);
 }
 
 .btn:disabled {
@@ -938,6 +1000,36 @@ table.data-table {
 
 .stats-extra {
   margin-top: 14px;
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.about-header .brand-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.about-header .brand-mark svg {
+  width: 24px;
+  height: 24px;
+}
+
+.about-title {
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.about-version {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
 }
 
 .modal-footer {
