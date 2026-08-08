@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PodTool</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">PodTool</span>
+        </div>
+
+        <nav class="nav" id="nav">
+          <button class="nav-item is-active" data-view="containers" type="button">
+            <span class="nav-icon" data-icon="box"></span>
+            <span>Containers</span>
+          </button>
+          <button class="nav-item" data-view="images" type="button">
+            <span class="nav-icon" data-icon="layers"></span>
+            <span>Images</span>
+          </button>
+          <button class="nav-item" data-view="volumes" type="button">
+            <span class="nav-icon" data-icon="database"></span>
+            <span>Volumes</span>
+          </button>
+          <button class="nav-item" data-view="networks" type="button">
+            <span class="nav-icon" data-icon="network"></span>
+            <span>Networks</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="status-pill" id="status-pill" type="button" title="Podman connection status">
+            <span class="dot" id="status-dot"></span>
+            <span id="status-text">Checking&hellip;</span>
+          </button>
+          <button class="icon-btn" id="theme-toggle" type="button" title="Theme">
+            <span data-icon="monitor"></span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <h1 id="view-title">Containers</h1>
+          <div class="topbar-actions">
+            <label class="search" for="search-input">
+              <span class="search-icon" data-icon="search"></span>
+              <input id="search-input" type="search" placeholder="Filter&hellip;" autocomplete="off" />
+            </label>
+            <button id="cleanup-btn" class="btn" type="button" title="Remove unused containers, images, volumes, and networks">
+              <span data-icon="trash"></span> Clean up
+            </button>
+            <button id="refresh-btn" class="icon-btn" type="button" title="Refresh">
+              <span data-icon="refresh"></span>
+            </button>
+          </div>
+        </header>
+
+        <section class="content" id="content" aria-live="polite">
+          <!-- populated by main.ts -->
+        </section>
+      </div>
+    </div>
+
+    <div id="modal-root"></div>
+    <div id="toast-root" class="toast-root"></div>
+  </body>
+</html>
